@@ -1575,7 +1575,7 @@ footer .legal{margin-top:34px;padding-top:22px;border-top:1px solid rgba(255,255
         t.textContent=String(val).replace('.',',')+'%';svg.appendChild(t);
         texts.push(t);
       });
-      var yl=E('text',{x:cx,y:bot+26,'text-anchor':'middle','font-size':14,'font-weight':800,fill:'#fff','font-family':'Inter,sans-serif'});yl.textContent=yr;svg.appendChild(yl);
+      var yl=E('text',{x:cx,y:bot+26,'text-anchor':'middle','font-size':14,'font-weight':800,fill:'#212C62','font-family':'Inter,sans-serif'});yl.textContent=yr;svg.appendChild(yl);
       
       return function(progress){
         var acc=0;
@@ -1618,11 +1618,11 @@ footer .legal{margin-top:34px;padding-top:22px;border-top:1px solid rgba(255,255
     var lx=40,ly=20;
     labels.forEach(function(lab,i){
       svg.appendChild(E('rect',{x:lx,y:ly-9,width:12,height:12,rx:3,fill:cols[i]}));
-      var t=E('text',{x:lx+18,y:ly+1,'font-size':12,fill:'#cdd5ea','font-family':'Inter,sans-serif'});t.textContent=lab;svg.appendChild(t);
+      var t=E('text',{x:lx+18,y:ly+1,'font-size':12,fill:'#212C62','font-family':'Inter,sans-serif'});t.textContent=lab;svg.appendChild(t);
       lx+= (i===0?120:130);
     });
     // arrow highlight 65+ growth
-    var t2=E('text',{x:cx2,y:padT-2,'text-anchor':'middle','font-size':12,'font-weight':800,fill:'#ff8a98','font-family':'Inter,sans-serif'});t2.textContent='65+ rośnie do 35,5%';svg.appendChild(t2);
+    var t2=E('text',{x:cx2,y:padT-2,'text-anchor':'middle','font-size':12,'font-weight':800,fill:'#D90429','font-family':'Inter,sans-serif'});t2.textContent='65+ rośnie do 35,5%';svg.appendChild(t2);
   })();
 
   /* ================= WYKRES 4: PL vs DE ================= */
@@ -1658,8 +1658,8 @@ footer .legal{margin-top:34px;padding-top:22px;border-top:1px solid rgba(255,255
     function X(yr){return padL+(yr-xMin)/(xMax-xMin)*(W-padL-padR);}
     function Y(v){return padT+(1-v/yMax)*(H-padT-padB);}
     [0,15,30,45].forEach(function(g){
-      svg.appendChild(E('line',{x1:padL,y1:Y(g),x2:W-padR,y2:Y(g),stroke:'rgba(255,255,255,.12)','stroke-width':1}));
-      var t=E('text',{x:padL-8,y:Y(g)+4,'text-anchor':'end','font-size':10,fill:'#8a94b4','font-family':'Inter,sans-serif'});t.textContent=g+'%';svg.appendChild(t);
+      svg.appendChild(E('line',{x1:padL,y1:Y(g),x2:W-padR,y2:Y(g),stroke:'#e6ebef','stroke-width':1}));
+      var t=E('text',{x:padL-8,y:Y(g)+4,'text-anchor':'end','font-size':10,fill:'#8D99AE','font-family':'Inter,sans-serif'});t.textContent=g+'%';svg.appendChild(t);
     });
     var d='M '+X(pts[0].yr)+' '+Y(pts[0].v);
     for(var i=1;i<pts.length;i++){var x0=X(pts[i-1].yr),y0=Y(pts[i-1].v),x1=X(pts[i].yr),y1=Y(pts[i].v),mx=(x0+x1)/2;d+=' C '+mx+' '+y0+' '+mx+' '+y1+' '+x1+' '+y1;}
@@ -1671,11 +1671,11 @@ footer .legal{margin-top:34px;padding-top:22px;border-top:1px solid rgba(255,255
     svg.appendChild(E('path',{d:area,fill:'url(#g5)'}));
     var line=E('path',{d:d,fill:'none',stroke:'#ff5a72','stroke-width':3,'stroke-linecap':'round'});svg.appendChild(line);drawPath(line,1.8);
     // endpoints
-    svg.appendChild(E('circle',{cx:X(2005),cy:Y(17.2),r:4,fill:'#ff5a72',stroke:'#0c1230','stroke-width':2}));
-    var t1=E('text',{x:X(2005)+6,y:Y(17.2)-8,'font-size':12,'font-weight':800,fill:'#fff','font-family':'Inter,sans-serif'});t1.textContent='17,2%';svg.appendChild(t1);
-    svg.appendChild(E('circle',{cx:X(2060),cy:Y(40),r:5,fill:'#ff5a72',stroke:'#0c1230','stroke-width':2}));
-    var t2=E('text',{x:X(2060)-6,y:Y(40)-10,'text-anchor':'end','font-size':14,'font-weight':900,fill:'#fff','font-family':'Inter,sans-serif'});t2.textContent='~40% (2060)';svg.appendChild(t2);
-    [2005,2020,2060].forEach(function(yr){var t=E('text',{x:X(yr),y:H-padB+20,'text-anchor':'middle','font-size':10,fill:'#8a94b4','font-family':'Inter,sans-serif'});t.textContent=yr;svg.appendChild(t);});
+    svg.appendChild(E('circle',{cx:X(2005),cy:Y(17.2),r:4,fill:'#ff5a72',stroke:'#fff','stroke-width':2}));
+    var t1=E('text',{x:X(2005)+6,y:Y(17.2)-8,'font-size':12,'font-weight':800,fill:'#212C62','font-family':'Inter,sans-serif'});t1.textContent='17,2%';svg.appendChild(t1);
+    svg.appendChild(E('circle',{cx:X(2060),cy:Y(40),r:5,fill:'#ff5a72',stroke:'#fff','stroke-width':2}));
+    var t2=E('text',{x:X(2060)-6,y:Y(40)-10,'text-anchor':'end','font-size':14,'font-weight':900,fill:'#212C62','font-family':'Inter,sans-serif'});t2.textContent='~40% (2060)';svg.appendChild(t2);
+    [2005,2020,2060].forEach(function(yr){var t=E('text',{x:X(yr),y:H-padB+20,'text-anchor':'middle','font-size':10,fill:'#8D99AE','font-family':'Inter,sans-serif'});t.textContent=yr;svg.appendChild(t);});
   })();
 
   /* ---------- FAQ accordion ---------- */
