@@ -923,7 +923,7 @@ footer .legal{margin-top:34px;padding-top:22px;border-top:1px solid rgba(255,255
       </div>
     </div>
 
-    <p class="bigidea reveal" style="color:#fff;max-width:30ch">Klub, który dziś traci juniora, jutro może <span class="u">zyskać seniora</span> - jeśli przestanie patrzeć na osoby starsze jak na widownię, a zacznie jak na członków.</p>
+    <p class="bigidea reveal" style="color:#fff;max-width:563.2px">Klub, który dziś traci juniora, jutro może <span class="u">zyskać seniora</span> - jeśli przestanie patrzeć na osoby starsze jak na widownię, a zacznie jak na członków.</p>
 
     <div class="implies reveal">
       <div class="t">Co to oznacza dla Twojego klubu?</div>
@@ -973,8 +973,40 @@ footer .legal{margin-top:34px;padding-top:22px;border-top:1px solid rgba(255,255
   </div>
 </section>
 
+<!-- ============ OPINIE ============ -->
+<section class="sec white" id="opinie">
+  <div class="wrap narrow">
+    <span class="eyebrow reveal">Opinie czytelników</span>
+    <h2 class="reveal" style="margin-bottom:34px">Co o raporcie mówią prezesi, menedżerowie i eksperci</h2>
+    <div class="reveal">
+      <iframe
+        id="opinie-raport"
+        width="100%"
+        src="https://app.easy.tools/walls/opinie-raport"
+        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+        frameborder="0"
+        scrolling="no"
+        style="width: 100%; border: none; min-height: 500px;"
+      ></iframe>
+    </div>
+  </div>
+</section>
+
+<script>
+  window.addEventListener("message", (e) => {
+    if (e.data.frameHeight && e.data.wallUuid === "opinie-raport") {
+      var h = e.data.frameHeight;
+      if (typeof h === 'number' || !h.toString().includes('px')) {
+        h = h + 'px';
+      }
+      document.getElementById("opinie-raport").style.height = h;
+    }
+  });
+</script>
+
 <!-- ============ AUTOR ============ -->
-<section class="sec white">
+<section class="sec light">
   <div class="wrap narrow">
     <span class="eyebrow reveal">O autorze</span>
     <h2 class="reveal" style="margin-bottom:34px">Kto napisał ten raport</h2>
