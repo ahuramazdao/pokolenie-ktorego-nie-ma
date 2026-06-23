@@ -253,7 +253,7 @@ img{max-width:100%}
 /* ===== HERO ===== */
 .hero{position:relative;background:radial-gradient(120% 120% at 80% 0%,#2a3878 0%,var(--navy) 38%,var(--ink) 78%,var(--ink-deep) 100%);color:#fff;overflow:hidden;padding:104px 0 76px}
 #dots{position:absolute;inset:0;width:100%;height:100%;opacity:.55}
-#polandMap{position:absolute;inset:0;width:100%;height:100%;opacity:.10;pointer-events:none}
+#polandMap{position:absolute;inset:0;width:100%;height:100%;opacity:.26;pointer-events:none}
 .hero .wrap{position:relative;z-index:2}
 .hero .eyebrow{margin-bottom:26px}
 .hero h1{font-weight:900;font-size:clamp(46px,8vw,80px);letter-spacing:-0.035em;max-width:14ch}
@@ -1177,11 +1177,34 @@ footer .legal{margin-top:34px;padding-top:22px;border-top:1px solid rgba(255,255
 
     function buildMap(){
       mapDots=[];
-      var spacing = Math.max(12, Math.min(18, W/70));
-      var mapW = W * mapScale;
-      var mapH = H * 0.9;
-      var oX = W * mapOX;
-      var oY = H * mapOY;
+      
+      // 1. Detect layout mode
+      var isMobile = (W < 960);
+      
+      // 2. Uniform scaling based on viewport space
+      var mapSize;
+      if (isMobile) {
+        mapSize = Math.min(W * 0.72, H * 0.45); // smaller map on mobile to fit text space
+      } else {
+        mapSize = Math.min(W * 0.48, H * 0.82); // large map on desktop
+      }
+      
+      // 3. Strict aspect ratio of Poland (roughly 1.1 width to 1.0 height)
+      var mapW = mapSize * 1.1;
+      var mapH = mapSize;
+      
+      // 4. Responsive positioning coordinates
+      var oX, oY;
+      if (isMobile) {
+        oX = (W - mapW) / 2; // centered horizontally
+        oY = H * 0.08;        // placed in the upper-mid region of hero
+      } else {
+        oX = W * 0.44;       // aligned right-center behind the book
+        oY = (H - mapH) / 2; // vertically centered
+      }
+
+      // 5. Dynamic spacing (finer grid on desktop, slightly wider on mobile for performance)
+      var spacing = isMobile ? Math.max(12, W / 30) : Math.max(12, Math.min(18, W / 65));
 
       for(var gx = 0; gx < mapW; gx += spacing){
         for(var gy = 0; gy < mapH; gy += spacing){
@@ -1193,7 +1216,10 @@ footer .legal{margin-top:34px;padding-top:22px;border-top:1px solid rgba(255,255
               by: oY + gy,
               r: Math.random()*0.6 + 0.8,
               phase: Math.random() * Math.PI * 2,
-              speed: Math.random()*0.3 + 0.15
+              speed: Math.random()*0.3 + 0.15,
+              glowPhase: Math.random() * Math.PI * 2,
+              glowSpeed: Math.random() * 1.5 + 0.5,
+              isGlower: Math.random() < 0.20
             });
           }
         }
@@ -1209,10 +1235,28 @@ footer .legal{margin-top:34px;padding-top:22px;border-top:1px solid rgba(255,255
         var wave = elapsed * d.speed;
         var dx = Math.sin(wave * 1.7 + d.phase) * 2.5;
         var dy = Math.cos(wave * 1.3 + d.phase * 0.7) * 2.5;
+        
+        var radius = d.r;
+        var alpha = 0.65;
+        
+        if (d.isGlower) {
+          var glow = Math.sin(elapsed * d.glowSpeed + d.glowPhase);
+          var normGlow = (glow + 1) / 2;
+          alpha = 0.4 + normGlow * 0.6;
+          radius = d.r * (1 + normGlow * 0.6);
+        }
+        
         ctx.beginPath();
-        ctx.arc(d.bx + dx, d.by + dy, d.r, 0, 6.283);
-        ctx.fillStyle = 'rgba(255,255,255,0.7)';
+        ctx.arc(d.bx + dx, d.by + dy, radius, 0, 6.283);
+        ctx.fillStyle = 'rgba(255,255,255,' + alpha + ')';
         ctx.fill();
+        
+        if (d.isGlower && alpha > 0.85) {
+          ctx.beginPath();
+          ctx.arc(d.bx + dx, d.by + dy, radius * 2.5, 0, 6.283);
+          ctx.fillStyle = 'rgba(255,255,255,' + ((alpha - 0.85) * 0.45) + ')';
+          ctx.fill();
+        }
       }
       requestAnimationFrame(frameMap);
     }
