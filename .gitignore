@@ -1,0 +1,15 @@
+# System files
+.DS_Store
+Thumbs.db
+.ipynb_checkpoints/
+
+# Zip / Archives backups
+*.zip
+*.rar
+*.tar.gz
+
+# Next.js workspace ignores (in case they are not caught by subdirectory rules)
+web/.next/
+web/node_modules/
+web/out/
+web/build/
